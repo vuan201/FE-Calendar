@@ -1,3 +1,5 @@
 export const RoutePaths = {
-  HOME: '/',
+  HOME: "/",
+  CALENDAR: "/calendar",
+  EVENT: "/event",
 };
