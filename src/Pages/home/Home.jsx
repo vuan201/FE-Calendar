@@ -1,5 +1,7 @@
-export const Home = () => (
-  <div>
+import { Calendar } from "rsuite";
 
-  </div>
-);
+export const Home = () => {
+  return (
+    <Calendar bordered />
+  );
+};
