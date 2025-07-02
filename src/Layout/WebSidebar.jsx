@@ -1,16 +1,14 @@
+import { useState } from "react";
 import { Sidebar, Sidenav, Nav } from "rsuite";
 import { Icon } from "@rsuite/icons";
-import Brand from "../components/Brand";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import NavToggle from "../components/NavToggle";
-import { RoutePaths } from "../general/RoutePaths";
-
-// icon
 import { FaHome } from "react-icons/fa";
 import { CiCalendarDate } from "react-icons/ci";
 import { MdEvent } from "react-icons/md";
+
+import { RoutePaths } from "../general/RoutePaths";
+import Brand from "../components/Brand";
 
 const WebSidebar = () => {
   const navigate = useNavigate();
@@ -21,9 +19,10 @@ const WebSidebar = () => {
       style={{ display: "flex", flexDirection: "column" }}
       width={expand ? 260 : 56}
       collapsible
+      appearance="subtle"
     >
       <Sidenav.Header>
-        <Brand expand={expand} />
+        <Brand expand={expand} onChange={() => setExpand(!expand)}/>
       </Sidenav.Header>
       <Sidenav expanded={expand} defaultOpenKeys={["3"]} appearance="subtle">
         <Sidenav.Body>
@@ -40,7 +39,6 @@ const WebSidebar = () => {
           </Nav>
         </Sidenav.Body>
       </Sidenav>
-      <NavToggle expand={expand} onChange={() => setExpand(!expand)} />
     </Sidebar>
   );
 };

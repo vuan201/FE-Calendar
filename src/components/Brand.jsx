@@ -1,10 +1,17 @@
-import { HStack ,Text} from "rsuite";
-import { FaReact } from 'react-icons/fa';
+import { HStack, IconButton, Stack, Text } from "rsuite";
+import { FaReact } from "react-icons/fa";
 
-const Brand = ({ expand }) => {
+const Brand = ({ expand, onChange }) => {
   return (
-    <HStack className="page-brand" spacing={12}>
-      <FaReact size={26} />
+    <HStack className="page-brand px-2 py-2" spacing={12}>
+      <Stack className="nav-toggle" justifyContent={"flex-start"}>
+        <IconButton
+          onClick={onChange}
+          appearance="subtle"
+          size="lg"
+          icon={<FaReact size={20} />}
+        />
+      </Stack>
       {expand && <Text>Brand</Text>}
     </HStack>
   );
