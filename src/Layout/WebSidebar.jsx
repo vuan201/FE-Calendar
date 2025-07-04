@@ -9,6 +9,8 @@ import { MdEvent } from "react-icons/md";
 
 import { RoutePaths } from "../general/RoutePaths";
 import Brand from "../components/Brand";
+import clsx from "clsx";
+import { BackgroundColor } from "../Constant/TailwindClassVariable";
 
 const WebSidebar = () => {
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ const WebSidebar = () => {
       width={expand ? 260 : 56}
       collapsible
       appearance="subtle"
+      className={clsx(BackgroundColor.Sidebar)}
     >
       <Sidenav.Header>
         <Brand expand={expand} onChange={() => setExpand(!expand)}/>

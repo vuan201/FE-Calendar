@@ -9,15 +9,15 @@ import WebSidebar from "./Layout/WebSidebar.jsx";
 export const App = () => (
   <BrowserRouter>
     <Suspense fallback={<Loading name="suspense" />}>
+      <Container className="h-full">
+        <WebSidebar />
         <Container>
-          <WebSidebar />
-          <Container>
-            <WebHeader />
-            <Content>
-              <Router />
-            </Content>
-          </Container>
+          <WebHeader />
+          <Content>
+            <Router />
+          </Content>
         </Container>
+      </Container>
     </Suspense>
   </BrowserRouter>
 );

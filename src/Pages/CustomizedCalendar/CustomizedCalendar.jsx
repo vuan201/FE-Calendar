@@ -10,16 +10,16 @@ function getTodoList(date) {
   switch (day) {
     case 10:
       return [
-        { time: '10:30 am', title: 'Meeting' },
-        { time: '12:00 pm', title: 'Lunch' }
+        { time: "10:30 am", title: "Meeting" },
+        { time: "12:00 pm", title: "Lunch" },
       ];
     case 15:
       return [
-        { time: '09:30 pm', title: 'Products Introduction Meeting' },
-        { time: '12:30 pm', title: 'Client entertaining' },
-        { time: '02:00 pm', title: 'Product design discussion' },
-        { time: '05:00 pm', title: 'Product test and acceptance' },
-        { time: '06:30 pm', title: 'Reporting' }
+        { time: "09:30 pm", title: "Products Introduction Meeting" },
+        { time: "12:30 pm", title: "Client entertaining" },
+        { time: "02:00 pm", title: "Product design discussion" },
+        { time: "05:00 pm", title: "Product test and acceptance" },
+        { time: "06:30 pm", title: "Reporting" },
       ];
     default:
       return [];
@@ -64,8 +64,8 @@ const TodoList = ({ date }) => {
 
   return (
     <List style={{ flex: 1 }} bordered>
-      {list.map(item => (
-        <List.Item key={item.time} index={item.time}>
+      {list.map((item) => (
+        <List.Item key={item.time} index={item.time} className={"bg-zinc-500"}>
           <div>{item.time}</div>
           <div>{item.title}</div>
         </List.Item>
@@ -73,6 +73,5 @@ const TodoList = ({ date }) => {
     </List>
   );
 };
-
 
 export default CustomizedCalendar;
