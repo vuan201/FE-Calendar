@@ -1,18 +1,17 @@
 import { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
-import { Router } from "./general/Router.jsx";
-import { Loading } from "./components/Loading.jsx";
+import { Router } from "./router/Router.jsx";
+import { Loading } from "./components";
 import { Container, Content } from "rsuite";
-import WebHeader from "./Layout/Header.jsx";
-import WebSidebar from "./Layout/WebSidebar.jsx";
+import { CustomHeader, CustomSidebar } from "./layout/index.jsx";
 
 export const App = () => (
   <BrowserRouter>
     <Suspense fallback={<Loading name="suspense" />}>
       <Container className="h-full">
-        <WebSidebar />
+        <CustomSidebar />
         <Container>
-          <WebHeader />
+          <CustomHeader />
           <Content>
             <Router />
           </Content>

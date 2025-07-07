@@ -1,6 +1,6 @@
-export const Loading = ({ name }) => {
+const Loading = ({ name }) => {
   if (name) {
-    console.log('Loading', name);
+    console.log("Loading", name);
   }
 
   return (
@@ -11,3 +11,5 @@ export const Loading = ({ name }) => {
     </div>
   );
 };
+
+export default Loading;

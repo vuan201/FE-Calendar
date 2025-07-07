@@ -1,11 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
 import { RoutePaths } from "./RoutePaths.jsx";
-import { Home } from "../Pages/home/Home.jsx";
-import { NotFound } from "./NotFound.jsx";
-import { Layout } from "./Layout.jsx";
-import Event from "../Pages/event/Event";
-import CustomizedCalendar from "../Pages/CustomizedCalendar/CustomizedCalendar.jsx";
+import { Home, NotFound, Event, CustomizedCalendar } from "../pages/index.jsx";
+import { Layout } from "../layout/index.jsx";
 export const Router = () => (
   <Routes>
     <Route

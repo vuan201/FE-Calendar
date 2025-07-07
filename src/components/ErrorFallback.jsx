@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { RoutePaths } from "../general/RoutePaths.jsx";
+import { RoutePaths } from "../router/RoutePaths.jsx";
 
-export const ErrorFallback = ({ error, resetErrorBoundary }) => {
+const ErrorFallback = ({ error, resetErrorBoundary }) => {
   const navigate = useNavigate();
 
   return (
@@ -30,3 +30,5 @@ export const ErrorFallback = ({ error, resetErrorBoundary }) => {
     </div>
   );
 };
+
+export default ErrorFallback;

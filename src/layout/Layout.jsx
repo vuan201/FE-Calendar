@@ -1,8 +1,10 @@
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "../components/ErrorFallback.jsx";
+import { ErrorFallback } from "../components";
 
-export const Layout = ({ children }) => {
+const Layout = ({ children }) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>{children}</ErrorBoundary>
   );
 };
+
+export default Layout;

@@ -1,7 +1,7 @@
-import { RoutePaths } from './RoutePaths.jsx';
+import { RoutePaths } from '../../router/RoutePaths.jsx';
 import { useNavigate } from 'react-router-dom';
 
-export const NotFound = () => {
+const NotFound = () => {
   const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center">
@@ -14,3 +14,5 @@ export const NotFound = () => {
     </div>
   );
 };
+
+export default NotFound;

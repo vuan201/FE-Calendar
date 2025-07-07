@@ -1,6 +1,6 @@
 import { Header, Breadcrumb } from "rsuite";
 
-const WebHeader = () => {
+const CustomHeader = () => {
   return (
     <Header className="page-header">
       <Breadcrumb>
@@ -12,4 +12,4 @@ const WebHeader = () => {
   );
 };
 
-export default WebHeader;
+export default CustomHeader;
