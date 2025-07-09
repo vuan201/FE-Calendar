@@ -1,6 +1,6 @@
 import { Sidebar, Sidenav, Nav } from "rsuite";
 import { Icon } from "@rsuite/icons";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { FaHome } from "react-icons/fa";
 import { CiCalendarDate } from "react-icons/ci";
@@ -15,10 +15,17 @@ import { Brand } from "../components";
 import { BackgroundColor } from "../constant";
 
 const CustomSidebar = () => {
+   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const expand = useSelector(selectSidebarExpand);
+
+  const MenuItem = [
+    { path: RoutePaths.HOME, name: "Trang chủ", icon: FaHome },
+    { path: RoutePaths.CALENDAR, name: "Lịch", icon: CiCalendarDate },
+    { path: RoutePaths.EVENT, name: "sự kiện", icon: MdEvent },
+  ];
 
   return (
     <Sidebar
@@ -26,7 +33,7 @@ const CustomSidebar = () => {
       width={expand ? 260 : 56}
       collapsible
       appearance="subtle"
-      className={clsx(BackgroundColor.Sidebar)}
+      className={clsx(BackgroundColor.Sidebar, "sticky top-0 text-2xl")}
     >
       <Sidenav.Header>
         <Brand
@@ -34,30 +41,20 @@ const CustomSidebar = () => {
           onChange={() => dispatch(changeSidebarState(expand))}
         />
       </Sidenav.Header>
-      <Sidenav expanded={expand} defaultOpenKeys={["3"]} appearance="subtle">
+      <Sidenav expanded={expand} appearance="subtle" >
         <Sidenav.Body>
-          <Nav defaultActiveKey="1">
-            <Nav.Item
-              eventKey="1"
-              onClick={() => navigate(RoutePaths.HOME)}
-              icon={<Icon as={FaHome} />}
-            >
-              Trang chủ
-            </Nav.Item>
-            <Nav.Item
-              eventKey="2"
-              onClick={() => navigate(RoutePaths.CALENDAR)}
-              icon={<Icon as={CiCalendarDate} />}
-            >
-              Lịch
-            </Nav.Item>
-            <Nav.Item
-              eventKey="3"
-              onClick={() => navigate(RoutePaths.EVENT)}
-              icon={<Icon as={MdEvent} />}
-            >
-              Sự kiện
-            </Nav.Item>
+          <Nav >
+            {MenuItem.map((item, index) => (
+              <Nav.Item
+                key={item.path}
+                eventKey={index}
+                onClick={() => navigate(item.path)}
+                icon={<Icon as={item.icon} />}
+                active={item.path === location.pathname}
+              >
+                {item.name}
+              </Nav.Item>
+            ))}
           </Nav>
         </Sidenav.Body>
       </Sidenav>
