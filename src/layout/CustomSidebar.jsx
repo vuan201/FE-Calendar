@@ -13,6 +13,7 @@ import { selectSidebarExpand, changeSidebarState } from "../app/redux";
 import { RoutePaths } from "../router/RoutePaths";
 import { Brand } from "../components";
 import { BackgroundColor } from "../constant";
+import Box from "../components/Box";
 const CustomSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,36 +28,41 @@ const CustomSidebar = () => {
   ];
 
   return (
-    <Sidebar
-      style={{ display: "flex", flexDirection: "column" }}
-      width={expand ? 180 : 56}
-      collapsible
-      className={clsx(BackgroundColor.Sidebar, "sticky top-0 text-2xl bg-box")}
-    >
-      <Sidenav.Header>
-        <Brand
-          expand={expand}
-          onChange={() => dispatch(changeSidebarState(expand))}
-        />
-      </Sidenav.Header>
-      <Sidenav expanded={expand} appearance="subtle">
-        <Sidenav.Body>
-          <Nav>
-            {MenuItem.map((item, index) => (
-              <Nav.Item
-                key={item.path}
-                eventKey={index}
-                onClick={() => navigate(item.path)}
-                icon={<Icon as={item.icon} />}
-                active={item.path === location.pathname}
-              >
-                {item.name}
-              </Nav.Item>
-            ))}
-          </Nav>
-        </Sidenav.Body>
-      </Sidenav>
-    </Sidebar>
+    <Box className={"sticky top-0"} margin={false} padding={false} radius={false}>
+      <Sidebar
+        style={{ display: "flex", flexDirection: "column" }}
+        width={expand ? 180 : 56}
+        collapsible
+        className={clsx(
+          BackgroundColor.Sidebar,
+          "sticky top-0 text-2xl bg-box"
+        )}
+      >
+        <Sidenav.Header>
+          <Brand
+            expand={expand}
+            onChange={() => dispatch(changeSidebarState(expand))}
+          />
+        </Sidenav.Header>
+        <Sidenav expanded={expand} appearance="subtle">
+          <Sidenav.Body>
+            <Nav>
+              {MenuItem.map((item, index) => (
+                <Nav.Item
+                  key={item.path}
+                  eventKey={index}
+                  onClick={() => navigate(item.path)}
+                  icon={<Icon as={item.icon} />}
+                  active={item.path === location.pathname}
+                >
+                  {item.name}
+                </Nav.Item>
+              ))}
+            </Nav>
+          </Sidenav.Body>
+        </Sidenav>
+      </Sidebar>
+    </Box>
   );
 };
 

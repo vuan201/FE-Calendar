@@ -6,9 +6,9 @@ import "./CustomizeCalendar.css";
 import dayjs from "dayjs";
 import "dayjs/locale/vi"; // Import locale tiếng Việt cho Day.js
 
-// Import plugin localeData. Đây là plugin quan trọng mà react-big-calendar cần để đọc các định dạng ngày tháng từ Day.js
 import localeData from "dayjs/plugin/localeData";
 import Box from "../../components/Box";
+import { Button, ButtonGroup } from "rsuite";
 
 // Kích hoạt plugin localeData cho Day.js
 dayjs.extend(localeData);
@@ -19,7 +19,10 @@ dayjs.locale("vi");
 const localizer = dayjsLocalizer(dayjs);
 
 const CustomizedCalendar = () => {
-  // const [myEventsList, setMyEventsList] = useState([]);
+  const views = ["month", "week", "work_week", "day"];
+
+  const [View, setView] = useState(views[0]);
+
   const [currentDate, setCurrentDate] = useState(new Date(2025, 6, 8)); // Đặt ngày hiện tại để khớp với ảnh chụp màn hình
   // Dữ liệu sự kiện mẫu
   const events = [
@@ -70,21 +73,38 @@ const CustomizedCalendar = () => {
   };
 
   return (
-    <Box>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ minHeight: 900 }} // Chiều cao của lịch
-        defaultView="month" // Chế độ xem mặc định là tháng
-        date={currentDate} // Đặt ngày hiện tại
-        onNavigate={setCurrentDate} // Xử lý khi điều hướng lịch
-        toolbar={true} // Hiển thị thanh công cụ
-        // Các props khác có thể thêm vào
-        messages={messages}
-      />
-    </Box>
+    <div>
+      <Box>
+        <ButtonGroup>
+          <Button color="yellow" appearance="ghost" onClick={() => setView(views[0])}>
+            Tháng
+          </Button>
+          <Button color="yellow" appearance="ghost" onClick={() => setView(views[1])}>
+            Tuần
+          </Button>
+          <Button color="yellow" appearance="ghost" onClick={() => setView(views[3])}>
+            Ngày
+          </Button>
+        </ButtonGroup>
+      </Box>
+
+      <Box padding={false}>
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ minHeight: 900, padding: 0 }} // Chiều cao của lịch
+          defaultView={View} // Chế độ xem mặc định là tháng
+          views={View}
+          date={currentDate} // Đặt ngày hiện tại
+          onNavigate={setCurrentDate} // Xử lý khi điều hướng lịch
+          // Các props khác có thể thêm vào
+          messages={messages}
+          toolbar={true} // Không hiển thị thanh công cụ
+        />
+      </Box>
+    </div>
   );
 };
 
