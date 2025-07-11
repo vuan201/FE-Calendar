@@ -11,7 +11,7 @@ import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <CustomProvider locale={locale}>
+    <CustomProvider theme="dark" locale={locale}>
       <Provider store={store}>
         <App />
       </Provider>

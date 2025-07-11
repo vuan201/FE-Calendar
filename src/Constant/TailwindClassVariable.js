@@ -1,4 +1,4 @@
 export const BackgroundColor = {
   Main: "bg-zinc-800",
-  Sidebar: "bg-white",
+  Sidebar: "bg-bg-box",
 };

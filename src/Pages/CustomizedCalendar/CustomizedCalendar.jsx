@@ -8,6 +8,7 @@ import "dayjs/locale/vi"; // Import locale tiếng Việt cho Day.js
 
 // Import plugin localeData. Đây là plugin quan trọng mà react-big-calendar cần để đọc các định dạng ngày tháng từ Day.js
 import localeData from "dayjs/plugin/localeData";
+import Box from "../../components/Box";
 
 // Kích hoạt plugin localeData cho Day.js
 dayjs.extend(localeData);
@@ -69,13 +70,13 @@ const CustomizedCalendar = () => {
   };
 
   return (
-    <div>
+    <Box>
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 800 }} // Chiều cao của lịch
+        style={{ minHeight: 900 }} // Chiều cao của lịch
         defaultView="month" // Chế độ xem mặc định là tháng
         date={currentDate} // Đặt ngày hiện tại
         onNavigate={setCurrentDate} // Xử lý khi điều hướng lịch
@@ -83,7 +84,7 @@ const CustomizedCalendar = () => {
         // Các props khác có thể thêm vào
         messages={messages}
       />
-    </div>
+    </Box>
   );
 };
 

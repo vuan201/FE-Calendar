@@ -13,9 +13,8 @@ import { selectSidebarExpand, changeSidebarState } from "../app/redux";
 import { RoutePaths } from "../router/RoutePaths";
 import { Brand } from "../components";
 import { BackgroundColor } from "../constant";
-
 const CustomSidebar = () => {
-   const location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,10 +29,9 @@ const CustomSidebar = () => {
   return (
     <Sidebar
       style={{ display: "flex", flexDirection: "column" }}
-      width={expand ? 260 : 56}
+      width={expand ? 180 : 56}
       collapsible
-      appearance="subtle"
-      className={clsx(BackgroundColor.Sidebar, "sticky top-0 text-2xl")}
+      className={clsx(BackgroundColor.Sidebar, "sticky top-0 text-2xl bg-box")}
     >
       <Sidenav.Header>
         <Brand
@@ -41,9 +39,9 @@ const CustomSidebar = () => {
           onChange={() => dispatch(changeSidebarState(expand))}
         />
       </Sidenav.Header>
-      <Sidenav expanded={expand} appearance="subtle" >
+      <Sidenav expanded={expand} appearance="subtle">
         <Sidenav.Body>
-          <Nav >
+          <Nav>
             {MenuItem.map((item, index) => (
               <Nav.Item
                 key={item.path}
