@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../router/RoutePaths.jsx";
+import Box from "./Box.jsx";
 
 const ErrorFallback = ({ error, resetErrorBoundary }) => {
   const navigate = useNavigate();
 
   return (
-    <div role="alert">
+    <Box role="alert">
       {import.meta.env.DEV && (
-        <div className="bg-white pl-10 pt-10">
+        <div className="">
           <p>DEV ONLY!</p>
           <p>Đã xảy ra lỗi:</p>
           <pre>{error.message}</pre>
@@ -27,7 +28,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => {
         </div>
         <div>Đã xảy ra lỗi. Vui lòng liên hệ bộ phận hỗ trợ!</div>
       </div>
-    </div>
+    </Box>
   );
 };
 

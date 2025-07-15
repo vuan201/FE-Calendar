@@ -7,14 +7,16 @@ function Box({
   margin = true,
   radius = true,
   border = true,
+  background,
   ...props
 }) {
   return (
     <div
       className={clsx(
-        "bg-bg-box overflow-hidden",
+        "overflow-hidden",
         className,
         {
+          "bg-bg-box": !background,
           "shadow-md shadow-shadow-subtle border-border border-1": border,
           "m-4": margin,
           "rounded-lg": radius,

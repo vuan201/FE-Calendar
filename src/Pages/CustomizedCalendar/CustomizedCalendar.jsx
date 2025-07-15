@@ -1,29 +1,48 @@
-import { useState } from "react";
-import { Calendar, dayjsLocalizer } from "react-big-calendar";
+import { useCallback, useMemo, useState } from "react";
+import { Calendar, dayjsLocalizer, Views } from "react-big-calendar";
+import dayjs from "dayjs";
+import PagePreviousIcon from "@rsuite/icons/PagePrevious";
+import PageNextIcon from "@rsuite/icons/PageNext";
+import { Button, ButtonGroup, DatePicker, IconButton } from "rsuite";
+import Box from "../../components/Box";
+import { getTitleByDate } from "../../extension";
+
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./CustomizeCalendar.css";
 
-import dayjs from "dayjs";
 import "dayjs/locale/vi"; // Import locale tiếng Việt cho Day.js
-
-import localeData from "dayjs/plugin/localeData";
-import Box from "../../components/Box";
-import { Button, ButtonGroup } from "rsuite";
-
-// Kích hoạt plugin localeData cho Day.js
-dayjs.extend(localeData);
-
-// Đặt ngôn ngữ mặc định cho Day.js là tiếng Việt
-dayjs.locale("vi");
-
 const localizer = dayjsLocalizer(dayjs);
 
 const CustomizedCalendar = () => {
-  const views = ["month", "week", "work_week", "day"];
+  const [view, setView] = useState(Views.MONTH);
 
-  const [View, setView] = useState(views[0]);
+  const [date, setDate] = useState(new dayjs().toDate()); // Đặt ngày hiện tại để khớp với ảnh chụp màn hình
 
-  const [currentDate, setCurrentDate] = useState(new Date(2025, 6, 8)); // Đặt ngày hiện tại để khớp với ảnh chụp màn hình
+  const viewOptions = [
+    { label: "Tháng", value: Views.MONTH },
+    { label: "Tuần", value: Views.WEEK },
+    { label: "Ngày", value: Views.DAY },
+  ];
+
+  const messages = {
+    date: "Ngày",
+    time: "Giờ",
+    event: "Sự kiện",
+    allDay: "Cả ngày",
+    week: "Tuần",
+    work_week: "Tuần làm việc",
+    day: "Ngày",
+    month: "Tháng",
+    previous: "Trước",
+    next: "Tiếp",
+    yesterday: "Hôm qua",
+    tomorrow: "Ngày mai",
+    today: "Hôm nay",
+    agenda: "Lịch trình",
+    noEventsInRange: "Không có sự kiện nào trong khoảng thời gian này.",
+    showMore: (total) => `+${total} sự kiện khác`,
+  };
+
   // Dữ liệu sự kiện mẫu
   const events = [
     {
@@ -53,39 +72,73 @@ const CustomizedCalendar = () => {
     },
   ];
 
-  const messages = {
-    date: "Ngày",
-    time: "Giờ",
-    event: "Sự kiện",
-    allDay: "Cả ngày",
-    week: "Tuần",
-    work_week: "Tuần làm việc",
-    day: "Ngày",
-    month: "Tháng",
-    previous: "Trước",
-    next: "Tiếp",
-    yesterday: "Hôm qua",
-    tomorrow: "Ngày mai",
-    today: "Hôm nay",
-    agenda: "Lịch trình",
-    noEventsInRange: "Không có sự kiện nào trong khoảng thời gian này.",
-    showMore: (total) => `+${total} sự kiện khác`,
-  };
+  const title = useMemo(() => {
+    return getTitleByDate(date, view);
+  }, [view, date]);
+
+  const nextBtn = useCallback(() => {
+    if (view === Views.DAY) setDate(dayjs(date).add(1, "day"));
+    if (view === Views.WEEK) setDate(dayjs(date).add(1, "week"));
+    if (view === Views.MONTH) setDate(dayjs(date).add(1, "month"));
+  }, [date, view]);
+
+  const subtractBtn = useCallback(() => {
+    if (view === Views.DAY) setDate(date.subtract(1, "day"));
+    if (view === Views.WEEK) setDate(date.subtract(1, "week"));
+    if (view === Views.MONTH) setDate(date.subtract(1, "month"));
+  }, [date, view]);
 
   return (
     <div>
-      <Box>
-        <ButtonGroup>
-          <Button color="yellow" appearance="ghost" onClick={() => setView(views[0])}>
-            Tháng
+      <Box className={"flex justify-between items-center gap-4"}>
+        <div>
+           <DatePicker format="dd.MM.yyyy" />
+        </div>
+        <div></div>
+        <div className="flex gap-2 justify-center items-center">
+          <Button
+            color="yellow"
+            appearance="ghost"
+            onClick={() => setDate(dayjs().toDate())}
+          >
+            Hôm nay
           </Button>
-          <Button color="yellow" appearance="ghost" onClick={() => setView(views[1])}>
-            Tuần
-          </Button>
-          <Button color="yellow" appearance="ghost" onClick={() => setView(views[3])}>
-            Ngày
-          </Button>
-        </ButtonGroup>
+          <IconButton
+            color="yellow"
+            appearance="ghost"
+            onClick={subtractBtn}
+            icon={<PagePreviousIcon />}
+          />
+          <Box
+            className={"bg-bg-basic min-w-72 text-center border border-accent"}
+            background={true}
+            margin={false}
+            border={false}
+          >
+            {title}
+          </Box>
+          <IconButton
+            color="yellow"
+            appearance="ghost"
+            onClick={nextBtn}
+            icon={<PageNextIcon />}
+          />
+        </div>
+        <div>
+          <ButtonGroup>
+            {viewOptions.map((option) => (
+              <Button
+                key={option.value}
+                color="yellow"
+                appearance="ghost"
+                onClick={() => setView(option.value)}
+                active={view === option.value}
+              >
+                {option.label}
+              </Button>
+            ))}
+          </ButtonGroup>
+        </div>
       </Box>
 
       <Box padding={false}>
@@ -95,13 +148,14 @@ const CustomizedCalendar = () => {
           startAccessor="start"
           endAccessor="end"
           style={{ minHeight: 900, padding: 0 }} // Chiều cao của lịch
-          defaultView={View} // Chế độ xem mặc định là tháng
-          views={View}
-          date={currentDate} // Đặt ngày hiện tại
-          onNavigate={setCurrentDate} // Xử lý khi điều hướng lịch
+          defaultView={view} // Chế độ xem mặc định là tháng
+          date={date} // Đặt ngày hiện tại
+          onNavigate={setDate} // Xử lý khi điều hướng lịch
+          view={view} // Sử dụng chế độ xem đã chọn
+          onView={setView}
           // Các props khác có thể thêm vào
           messages={messages}
-          toolbar={true} // Không hiển thị thanh công cụ
+          toolbar={false} // Không hiển thị thanh công cụ
         />
       </Box>
     </div>

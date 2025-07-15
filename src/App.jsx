@@ -4,6 +4,19 @@ import { Router } from "./router/Router.jsx";
 import { Loading } from "./components";
 import { Container, Content } from "rsuite";
 import { CustomHeader, CustomSidebar } from "./layout/index.jsx";
+import dayjs, { localeData } from "dayjs";
+import weekday from "dayjs/plugin/weekday"; // Plugin để lấy thứ trong tuần
+import isBetween from "dayjs/plugin/isBetween"; // Plugin để kiểm tra khoảng thời gian
+import weekOfYear from "dayjs/plugin/weekOfYear"; // Plugin để lấy số tuần trong năm
+
+// Kích hoạt plugin localeData cho Day.js
+dayjs.extend(localeData);
+
+// Đặt ngôn ngữ mặc định cho Day.js là tiếng Việt
+dayjs.locale("vi");
+dayjs.extend(weekday);
+dayjs.extend(isBetween);
+dayjs.extend(weekOfYear); // Thêm plugin weekOfYear
 
 export const App = () => (
   <div className="app min-h-screen flex flex-col">
