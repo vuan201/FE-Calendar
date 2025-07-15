@@ -20,7 +20,7 @@ function Box({
           "shadow-md shadow-shadow-subtle border-border border-1": border,
           "m-4": margin,
           "rounded-lg": radius,
-          "p-3": padding,
+          "px-3 py-2": padding,
         }
       )}
       {...props}

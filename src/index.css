@@ -2,12 +2,14 @@
 
 @theme {
   /* Thêm các cấp độ màu vàng khác */
-  --color-text-title: #d3bc8e;
-  --color-accent: #f2e2b0;
-  --yellow-600: #e3d29f; /* Một cấp độ giữa 700 và 500 */
-  --yellow-400: #f8ecc1; /* Nhạt hơn 500 */
-  --yellow-300: #faefd2; /* Nhạt hơn nữa */
-  --yellow-200: #fdf5e3; /* Rất nhạt */
+  --color-custom-yellow-700: #d3bc8e;
+  --color-custom-yellow-600: #e3d29f; /* Một cấp độ giữa 700 và 500 */
+  --color-custom-yellow-500: #f2e2b0;
+  --color-custom-yellow-400: #f8ecc1; /* Nhạt hơn 500 */
+  --color-custom-yellow-300: #faefd2; /* Nhạt hơn nữa */
+  --color-custom-yellow-200: #fdf5e3; /* Rất nhạt */
+  --color-success: #00a97f;
+  --color-black-text: rgb(10, 25, 30);
   /* Customize theme */
   --color-bg-box: #3b4354;
   --color-bg-basic: #2d3340;
@@ -41,25 +43,23 @@ body {
 }
 
 .rs-theme-dark .rs-btn-yellow {
-  --rs-btn-primary-bg: var(--color-text-title);
-  --rs-btn-primary-hover-bg: var(--color-accent);
-  --rs-btn-primary-active-bg: var(--yellow-400);
-  --rs-btn-subtle-hover-bg: var(--yellow-600);
+  --rs-btn-primary-bg: var(--color-custom-yellow-700);
+  --rs-btn-primary-hover-bg: var(--color-custom-yellow-500);
+  --rs-btn-primary-active-bg: var(--color-custom-yellow-400);
+  --rs-btn-subtle-hover-bg: var(--color-custom-yellow-600);
   --rs-btn-subtle-hover-text: #fff;
-  --rs-btn-subtle-active-bg: var(--yellow-400);
+  --rs-btn-subtle-active-bg: var(--color-custom-yellow-400);
   --rs-btn-subtle-active-text: #fff;
-  --rs-btn-ghost-border: var(--color-accent);
-  --rs-btn-ghost-text: var(--color-accent);
-  --rs-btn-ghost-hover-border: var(--yellow-400);
-  --rs-btn-ghost-hover-text: var(--yellow-400);
-  --rs-btn-ghost-active-border: var(--yellow-200);
-  --rs-btn-ghost-active-text: var(--yellow-200);
-  --rs-btn-link-text: var(--color-accent);
-  --rs-btn-link-hover-text: var(--yellow-400);
-  --rs-btn-link-active-text: var(--yellow-200);
-  --rs-iconbtn-primary-addon: var(--yellow-600);
-  --rs-iconbtn-primary-activated-addon: var(--yellow-400);
-  --rs-iconbtn-primary-pressed-addon: var(--yellow-300);
+  --rs-btn-ghost-border: var(--color-custom-yellow-500);
+  --rs-btn-ghost-text: var(--color-custom-yellow-500);
+  --rs-btn-ghost-hover-border: var(--color-custom-yellow-400);
+  --rs-btn-ghost-hover-text: var(--color-custom-yellow-400);
+  --rs-btn-ghost-active-border: var(--color-custom-yellow-200);
+  --rs-btn-ghost-active-text: var(--color-custom-yellow-200);
+  --rs-btn-link-text: var(--color-custom-yellow-500);
+  --rs-btn-link-hover-text: var(--color-custom-yellow-400);
+  --rs-btn-link-active-text: var(--color-custom-yellow-200);
+  --rs-iconbtn-primary-addon: var(--color-custom-yellow-600);
+  --rs-iconbtn-primary-activated-addon: var(--color-custom-yellow-400);
+  --rs-iconbtn-primary-pressed-addon: var(--color-custom-yellow-300);
 }
-
-

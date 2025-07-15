@@ -10,13 +10,14 @@ import { getTitleByDate } from "../../extension";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./CustomizeCalendar.css";
 
-import "dayjs/locale/vi"; // Import locale tiếng Việt cho Day.js
+import "dayjs/locale/vi";
+import CustomButton from "../../components/CustomButton/CustomButton";
 const localizer = dayjsLocalizer(dayjs);
 
 const CustomizedCalendar = () => {
   const [view, setView] = useState(Views.MONTH);
 
-  const [date, setDate] = useState(new dayjs().toDate()); // Đặt ngày hiện tại để khớp với ảnh chụp màn hình
+  const [date, setDate] = useState(new dayjs().toDate());
 
   const viewOptions = [
     { label: "Tháng", value: Views.MONTH },
@@ -48,7 +49,7 @@ const CustomizedCalendar = () => {
     {
       id: 0,
       title: "Họp nhóm",
-      start: new Date(2025, 6, 8, 9, 0, 0), // Tháng 7, ngày 8, 9:00 AM
+      start: new Date(2025, 6, 8, 9, 0, 0),
       end: new Date(2025, 6, 8, 10, 30, 0),
     },
     {
@@ -76,25 +77,37 @@ const CustomizedCalendar = () => {
     return getTitleByDate(date, view);
   }, [view, date]);
 
+  const subtractBtn = useCallback(() => {
+    if (view === Views.DAY) setDate(dayjs(date).subtract(1, "day"));
+    if (view === Views.WEEK) setDate(dayjs(date).subtract(1, "week"));
+    if (view === Views.MONTH) setDate(dayjs(date).subtract(1, "month"));
+  }, [date, view]);
+
   const nextBtn = useCallback(() => {
     if (view === Views.DAY) setDate(dayjs(date).add(1, "day"));
     if (view === Views.WEEK) setDate(dayjs(date).add(1, "week"));
     if (view === Views.MONTH) setDate(dayjs(date).add(1, "month"));
   }, [date, view]);
 
-  const subtractBtn = useCallback(() => {
-    if (view === Views.DAY) setDate(date.subtract(1, "day"));
-    if (view === Views.WEEK) setDate(date.subtract(1, "week"));
-    if (view === Views.MONTH) setDate(date.subtract(1, "month"));
-  }, [date, view]);
-
   return (
     <div>
       <Box className={"flex justify-between items-center gap-4"}>
+        <ButtonGroup>
+          {viewOptions.map((option) => (
+            <Button
+              key={option.value}
+              color="yellow"
+              appearance="ghost"
+              onClick={() => setView(option.value)}
+              active={view === option.value}
+            >
+              {option.label}
+            </Button>
+          ))}
+        </ButtonGroup>
         <div>
-           <DatePicker format="dd.MM.yyyy" />
+          <DatePicker format="dd.MM.yyyy" />
         </div>
-        <div></div>
         <div className="flex gap-2 justify-center items-center">
           <Button
             color="yellow"
@@ -110,7 +123,9 @@ const CustomizedCalendar = () => {
             icon={<PagePreviousIcon />}
           />
           <Box
-            className={"bg-bg-basic min-w-72 text-center border border-accent"}
+            className={
+              "bg-bg-basic min-w-72 text-center border border-custom-yellow-500 text-custom-yellow-500"
+            }
             background={true}
             margin={false}
             border={false}
@@ -125,37 +140,23 @@ const CustomizedCalendar = () => {
           />
         </div>
         <div>
-          <ButtonGroup>
-            {viewOptions.map((option) => (
-              <Button
-                key={option.value}
-                color="yellow"
-                appearance="ghost"
-                onClick={() => setView(option.value)}
-                active={view === option.value}
-              >
-                {option.label}
-              </Button>
-            ))}
-          </ButtonGroup>
+          <CustomButton>Thêm sự kiện</CustomButton>
         </div>
       </Box>
-
       <Box padding={false}>
         <Calendar
           localizer={localizer}
           events={events}
           startAccessor="start"
           endAccessor="end"
-          style={{ minHeight: 900, padding: 0 }} // Chiều cao của lịch
-          defaultView={view} // Chế độ xem mặc định là tháng
-          date={date} // Đặt ngày hiện tại
-          onNavigate={setDate} // Xử lý khi điều hướng lịch
-          view={view} // Sử dụng chế độ xem đã chọn
+          style={{ minHeight: 900, padding: 0 }}
+          defaultView={view}
+          date={date}
+          onNavigate={setDate}
+          view={view}
           onView={setView}
-          // Các props khác có thể thêm vào
           messages={messages}
-          toolbar={false} // Không hiển thị thanh công cụ
+          toolbar={false}
         />
       </Box>
     </div>
