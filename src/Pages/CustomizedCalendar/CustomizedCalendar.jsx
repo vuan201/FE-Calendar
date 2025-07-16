@@ -17,7 +17,7 @@ const CustomizedCalendar = () => {
   const [view, setView] = useState(Views.MONTH);
 
   const [date, setDate] = useState(new dayjs().toDate());
-
+  
   const viewOptions = [
     { label: "Tháng", value: Views.MONTH },
     { label: "Tuần", value: Views.WEEK },
@@ -105,7 +105,10 @@ const CustomizedCalendar = () => {
           ))}
         </ButtonGroup>
         <div>
-          <DatePicker format="dd.MM.yyyy" />
+          <DatePicker
+            format="dd.MM.yyyy"
+            onChange={(value) => setDate(dayjs(value))}
+          />
         </div>
         <div className="flex gap-2 justify-center items-center">
           <Button
