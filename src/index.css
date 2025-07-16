@@ -63,3 +63,8 @@ body {
   --rs-iconbtn-primary-activated-addon: var(--color-custom-yellow-400);
   --rs-iconbtn-primary-pressed-addon: var(--color-custom-yellow-300);
 }
+
+.rs-picker, .rs-picker .rs-input-group-addon {
+  --rs-input-bg: var(--color-bg-primary);
+  /* --rs-text-primary: var(--color-custom-yellow-700) */
+}

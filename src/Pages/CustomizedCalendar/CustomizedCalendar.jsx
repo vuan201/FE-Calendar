@@ -4,14 +4,13 @@ import dayjs from "dayjs";
 import PagePreviousIcon from "@rsuite/icons/PagePrevious";
 import PageNextIcon from "@rsuite/icons/PageNext";
 import { Button, ButtonGroup, DatePicker, IconButton } from "rsuite";
-import Box from "../../components/Box";
+import { Box, CustomButton } from "../../components";
 import { getTitleByDate } from "../../extension";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./CustomizeCalendar.css";
 
 import "dayjs/locale/vi";
-import CustomButton from "../../components/CustomButton/CustomButton";
 const localizer = dayjsLocalizer(dayjs);
 
 const CustomizedCalendar = () => {
