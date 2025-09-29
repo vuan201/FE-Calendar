@@ -3,7 +3,7 @@ import { Calendar, dayjsLocalizer, Views } from "react-big-calendar";
 import dayjs from "dayjs";
 import PagePreviousIcon from "@rsuite/icons/PagePrevious";
 import PageNextIcon from "@rsuite/icons/PageNext";
-import { Button, ButtonGroup, DatePicker, IconButton } from "rsuite";
+import { Button, ButtonGroup, DatePicker, IconButton, Modal, Placeholder } from "rsuite";
 import { Box, CustomButton } from "../../components";
 import { getTitleByDate } from "../../extension";
 
@@ -14,10 +14,12 @@ import "dayjs/locale/vi";
 const localizer = dayjsLocalizer(dayjs);
 
 const CustomizedCalendar = () => {
+  const [modelOpen, setModelOpen] = useState(false);
+
   const [view, setView] = useState(Views.MONTH);
 
-  const [date, setDate] = useState(new dayjs().toDate());
-  
+  const [date, setDate] = useState(new dayjs());
+
   const viewOptions = [
     { label: "Tháng", value: Views.MONTH },
     { label: "Tuần", value: Views.WEEK },
@@ -90,6 +92,23 @@ const CustomizedCalendar = () => {
 
   return (
     <div>
+       <Modal size={"sm"} open={modelOpen} onClose={() => setModelOpen(false)}>
+        <Modal.Header>
+          <Modal.Title>Modal Title</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Placeholder.Paragraph rows={10} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => setModelOpen(false)} appearance="subtle">
+            Hủy
+          </Button>
+          <Button onClick={() => setModelOpen(false)} appearance="primary">
+            Lưu
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <Box className={"flex justify-between items-center gap-4"}>
         <ButtonGroup>
           {viewOptions.map((option) => (
@@ -114,7 +133,7 @@ const CustomizedCalendar = () => {
           <Button
             color="yellow"
             appearance="ghost"
-            onClick={() => setDate(dayjs().toDate())}
+            onClick={() => setDate(dayjs())}
           >
             Hôm nay
           </Button>
@@ -142,7 +161,7 @@ const CustomizedCalendar = () => {
           />
         </div>
         <div>
-          <CustomButton>Thêm sự kiện</CustomButton>
+          <CustomButton onClick={() => setModelOpen(true)}>Thêm sự kiện</CustomButton>
         </div>
       </Box>
       <Box padding={false}>
