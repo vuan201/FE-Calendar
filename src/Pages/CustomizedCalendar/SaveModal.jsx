@@ -157,6 +157,7 @@ const SaveModal = ({ defaultData, modelOpen, setModelOpen }) => {
                     block
                     format="MM/dd/yyyy"
                     shouldDisableDate={disablePastDate}
+                    value={defaultData.startTime}
                     onChange={(value) => {
                       field.onChange(value);
                       if (value) {
