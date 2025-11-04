@@ -1,41 +1,27 @@
-import dayjs from "dayjs";
+import moment from "moment";
+import "moment/locale/vi";
+import { Views } from "react-big-calendar";
+
+// Thiết lập locale tiếng Việt cho moment
+moment.locale("vi");
 
 // --- Logic hiển thị tiêu đề tùy chỉnh ---
 const getTitleByDate = (date, view) => {
   try {
-    const currentDayJs = dayjs(date); // Chuyển đổi date thành đối tượng Day.js
+    const currentMoment = moment(date); // Chuyển đổi date thành đối tượng Moment
     switch (view) {
-      case "day":
+      case Views.DAY:
         // Chế độ ngày: hiển thị ngày, tháng, năm chi tiết
-        return currentDayJs.format("dddd, [Ngày] DD MMMM [Năm] YYYY");
-      case "week": {
-        var result = `Tuần ${currentDayJs.week()} `;
-        const startOfWeek = currentDayJs.startOf("week"); // Lấy ngày đầu tuần
-        const endOfWeek = currentDayJs.endOf("week"); // Lấy ngày cuối tuần
-
-        const startMonth = startOfWeek.format("MM"); // Tháng của ngày đầu tuần
-        const endMonth = endOfWeek.format("MM"); // Tháng của ngày cuối tuần
-
-        const startYear = startOfWeek.year(); // Năm của ngày đầu tuần
-        const endYear = endOfWeek.year(); // Năm của ngày cuối tuần
-
-        if (startYear === endYear) {
-          if (startMonth === endMonth) {
-            result += `Từ ${startOfWeek.format("DD")} - ${endOfWeek.format("DD")} tháng ${startMonth} năm ${startYear}`;
-          } else {
-            result += `từ ${startOfWeek.format("DD")}/${startMonth} - ${endOfWeek.format("DD")}/${endMonth} năm ${startYear}`;
-          }
-        } else {
-          result += `từ ${startOfWeek.format("DD")}/${startMonth}/${startYear} - ${endOfWeek.format("DD")}/${endMonth}/${endYear}`;
-        }
-
-        return result;
+        return currentMoment.format("dddd, [Ngày] DD MMMM [Năm] YYYY");
+      case Views.WEEK:
+      case Views.WORK_WEEK: {
+        return `Tuần ${currentMoment.week()} năm ${currentMoment.year()}`;
       }
-      case "month":
+      case Views.MONTH:
         // Chế độ tháng: chỉ cần hiện tháng
-        return currentDayJs.format("MMMM [Năm] YYYY");
+        return currentMoment.format("MMMM [Năm] YYYY");
       default:
-        return currentDayJs;
+        return `Năm ${currentMoment.year()}`;
     }
   } catch (err) {
     return null;

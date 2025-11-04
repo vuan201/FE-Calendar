@@ -1,9 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
-import { Calendar, dayjsLocalizer, Views } from "react-big-calendar";
-import dayjs from "dayjs";
+import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import PagePreviousIcon from "@rsuite/icons/PagePrevious";
 import PageNextIcon from "@rsuite/icons/PageNext";
-import { Button, ButtonGroup, DatePicker, IconButton } from "rsuite";
+import { Avatar, Button, IconButton, InputPicker } from "rsuite";
 import { Box, CustomButton } from "../../components";
 import { getTitleByDate } from "../../extension";
 import {
@@ -14,14 +13,23 @@ import {
   Messages,
 } from "../../constant";
 import SaveModal from "./SaveModal";
-
+// import PlusIcon from "@rsuite/icons/Plus";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./CustomizeCalendar.css";
-import "dayjs/locale/vi";
 
-const localizer = dayjsLocalizer(dayjs);
+import moment from "moment";
+import "moment/dist/locale/vi.js";
+
+moment.locale("vi");
 
 const CustomizedCalendar = () => {
+  const views = {
+    [Views.MONTH]: true,
+    [Views.WEEK]: true,
+    [Views.WORK_WEEK]: true,
+    [Views.DAY]: true,
+    [Views.AGENDA]: true,
+  };
 
   const DefaultData = {
     id: 0,
@@ -38,7 +46,7 @@ const CustomizedCalendar = () => {
 
   const [view, setView] = useState(Views.MONTH);
 
-  const [date, setDate] = useState(new dayjs());
+  const [date, setDate] = useState(new Date());
 
   // Dữ liệu sự kiện mẫu
   const events = [
@@ -67,6 +75,12 @@ const CustomizedCalendar = () => {
       end: new Date(2025, 6, 15, 23, 59, 59),
       allDay: true,
     },
+    {
+      id: 4,
+      title: "Event hiện tại",
+      start: new Date(),
+      end: new moment().add(1, "hour").toDate(),
+    },
   ];
 
   const title = useMemo(() => {
@@ -74,46 +88,32 @@ const CustomizedCalendar = () => {
   }, [view, date]);
 
   const subtractBtn = useCallback(() => {
-    if (view === Views.DAY) setDate(dayjs(date).subtract(1, "day"));
-    if (view === Views.WEEK) setDate(dayjs(date).subtract(1, "week"));
-    if (view === Views.MONTH) setDate(dayjs(date).subtract(1, "month"));
+    if (view === Views.DAY) setDate(moment(date).subtract(1, "day").toDate());
+    if (view === Views.WEEK) setDate(moment(date).subtract(1, "week").toDate());
+    if (view === Views.MONTH)
+      setDate(moment(date).subtract(1, "month").toDate());
   }, [date, view]);
 
   const nextBtn = useCallback(() => {
-    if (view === Views.DAY) setDate(dayjs(date).add(1, "day"));
-    if (view === Views.WEEK) setDate(dayjs(date).add(1, "week"));
-    if (view === Views.MONTH) setDate(dayjs(date).add(1, "month"));
+    if (view === Views.DAY) setDate(moment(date).add(1, "day").toDate());
+    if (view === Views.WEEK) setDate(moment(date).add(1, "week").toDate());
+    if (view === Views.MONTH) setDate(moment(date).add(1, "month").toDate());
   }, [date, view]);
 
   return (
     <div>
-      <SaveModal defaultData={DefaultData} modelOpen={modelOpen} setModelOpen={setModelOpen} />
+      <SaveModal
+        defaultData={DefaultData}
+        modelOpen={modelOpen}
+        setModelOpen={setModelOpen}
+      />
 
       <Box className={"flex justify-between items-center gap-4"}>
-        <ButtonGroup>
-          {ViewOptions.map((option) => (
-            <Button
-              key={option.value}
-              color="yellow"
-              appearance="ghost"
-              onClick={() => setView(option.value)}
-              active={view === option.value}
-            >
-              {option.label}
-            </Button>
-          ))}
-        </ButtonGroup>
-        <div>
-          <DatePicker
-            format="dd.MM.yyyy"
-            onChange={(value) => setDate(dayjs(value ?? new Date()))}
-          />
-        </div>
         <div className="flex gap-2 justify-center items-center">
           <Button
             color="yellow"
             appearance="ghost"
-            onClick={() => setDate(dayjs())}
+            onClick={() => setDate(moment())}
           >
             Hôm nay
           </Button>
@@ -140,15 +140,23 @@ const CustomizedCalendar = () => {
             icon={<PageNextIcon />}
           />
         </div>
-        <div>
+        <div className="flex gap-2 justify-end items-center">
           <CustomButton onClick={() => setModelOpen(true)}>
             Thêm sự kiện
           </CustomButton>
+          <InputPicker
+            data={ViewOptions}
+            defaultValue={view}
+            cleanable={false}
+            style={{ width: 160 }}
+            onChange={(value) => setView(value)}
+          />
+          <Avatar size="sm" circle />
         </div>
       </Box>
       <Box padding={false}>
         <Calendar
-          localizer={localizer}
+          localizer={momentLocalizer(moment)}
           events={events}
           startAccessor="start"
           endAccessor="end"
@@ -158,6 +166,7 @@ const CustomizedCalendar = () => {
           onNavigate={setDate}
           view={view}
           onView={setView}
+          views={views}
           messages={Messages}
           toolbar={false}
         />

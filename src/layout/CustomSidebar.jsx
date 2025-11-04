@@ -8,18 +8,26 @@ import { MdEvent } from "react-icons/md";
 import clsx from "clsx";
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectSidebarExpand, changeSidebarState } from "../app/redux";
+import {
+  selectSidebarExpand,
+  changeSidebarState,
+  selectMaxWidthSizebar,
+  selectMinWidthSizebar,
+} from "../app/redux";
 
 import { RoutePaths } from "../router/RoutePaths";
 import { Brand } from "../components";
 import { BackgroundColor } from "../constant";
-import Box from "../components/Box";
+
 const CustomSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const expand = useSelector(selectSidebarExpand);
+
+  const maxWidth = useSelector(selectMaxWidthSizebar);
+  const minWidth = useSelector(selectMinWidthSizebar);
 
   const MenuItem = [
     { path: RoutePaths.HOME, name: "Trang chủ", icon: FaHome },
@@ -28,15 +36,17 @@ const CustomSidebar = () => {
   ];
 
   return (
-    <Box className={"sticky top-0"} margin={false} padding={false} radius={false}>
+    <div className="fixed left-0 top-0 h-screen z-10">
       <Sidebar
-        style={{ display: "flex", flexDirection: "column" }}
-        width={expand ? 180 : 56}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+          transition: "width 0.3s ease",
+        }}
+        width={expand ? maxWidth : minWidth}
         collapsible
-        className={clsx(
-          BackgroundColor.Sidebar,
-          "sticky top-0 text-2xl bg-box"
-        )}
+        className={clsx(BackgroundColor.Sidebar, "text-2xl bg-box")}
       >
         <Sidenav.Header>
           <Brand
@@ -62,7 +72,7 @@ const CustomSidebar = () => {
           </Sidenav.Body>
         </Sidenav>
       </Sidebar>
-    </Box>
+    </div>
   );
 };
 

@@ -4,38 +4,37 @@ import { Router } from "./router/Router.jsx";
 import { Loading } from "./components";
 import { Container, Content } from "rsuite";
 import { CustomHeader, CustomSidebar } from "./layout/index.jsx";
-import dayjs, { localeData } from "dayjs";
-import weekday from "dayjs/plugin/weekday"; // Plugin để lấy thứ trong tuần
-import isBetween from "dayjs/plugin/isBetween"; // Plugin để kiểm tra khoảng thời gian
-import weekOfYear from "dayjs/plugin/weekOfYear"; // Plugin để lấy số tuần trong năm
+import { useSelector } from "react-redux";
+import { selectMaxWidthSizebar, selectMinWidthSizebar, selectSidebarExpand } from "./app/redux";
+import moment from "moment";
+import "moment/locale/vi";
 
-// Kích hoạt plugin localeData cho Day.js
-dayjs.extend(localeData);
+moment.locale("vi");
 
-// Đặt ngôn ngữ mặc định cho Day.js là tiếng Việt
-dayjs.locale("vi");
-dayjs.extend(weekday);
-dayjs.extend(isBetween);
-dayjs.extend(weekOfYear); // Thêm plugin weekOfYear
+export const App = () => {
+  const expand = useSelector(selectSidebarExpand);
+  const maxWidth = useSelector(selectMaxWidthSizebar)
+  const minWidth = useSelector(selectMinWidthSizebar)
 
-export const App = () => (
-  <div className="app min-h-screen flex flex-col">
-    <BrowserRouter>
-      <Suspense fallback={<Loading name="suspense" />}>
-        <Container className="h-full">
-          <CustomSidebar />
-          <Container>
-            <div className="px-2 sm:px-4 md:px-8 lg:px-12">
-              <div className="mx-auto ">
-                <CustomHeader />
-                <Content>
-                  <Router />
-                </Content>
+  return (
+    <div className="app min-h-screen flex flex-col">
+      <BrowserRouter>
+        <Suspense fallback={<Loading name="suspense" />}>
+          <Container className="">
+            <CustomSidebar />
+            <Container style={{ marginLeft: expand ? maxWidth : minWidth , transition: 'all .3s ease-in-out' }}>
+              <div className="px-2 sm:px-3 md:px-4 lg:px-5">
+                <div className="mx-auto ">
+                  <CustomHeader />
+                  <Content>
+                    <Router />
+                  </Content>
+                </div>
               </div>
-            </div>
+            </Container>
           </Container>
-        </Container>
-      </Suspense>
-    </BrowserRouter>
-  </div>
-);
+        </Suspense>
+      </BrowserRouter>
+    </div>
+  );
+};
