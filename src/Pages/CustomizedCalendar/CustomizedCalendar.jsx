@@ -3,7 +3,7 @@ import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import PagePreviousIcon from "@rsuite/icons/PagePrevious";
 import PageNextIcon from "@rsuite/icons/PageNext";
 import { Avatar, Button, IconButton, InputPicker } from "rsuite";
-import { Box, CustomButton } from "../../components";
+import { Box } from "../../components";
 import { getTitleByDate } from "../../extension";
 import {
   PRIOLITY,
@@ -13,13 +13,12 @@ import {
   Messages,
 } from "../../constant";
 import SaveModal from "./SaveModal";
-// import PlusIcon from "@rsuite/icons/Plus";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./CustomizeCalendar.css";
 
 import moment from "moment";
 import "moment/dist/locale/vi.js";
-import { selectedTime, setSelectedTime } from "../../app/redux";
+import { selectedTime, selectOpenModal, setOpenModal, setSelectedTime } from "../../app/redux";
 import { useDispatch, useSelector } from "react-redux";
 
 moment.locale("vi");
@@ -46,7 +45,7 @@ const CustomizedCalendar = () => {
 
   const dispatch = useDispatch();
 
-  const [modelOpen, setModelOpen] = useState(false);
+  const modelOpen = useSelector(selectOpenModal)
 
   const [view, setView] = useState(Views.MONTH);
   const time = useSelector(selectedTime);
@@ -130,7 +129,7 @@ const CustomizedCalendar = () => {
       <SaveModal
         defaultData={DefaultData}
         modelOpen={modelOpen}
-        setModelOpen={setModelOpen}
+        setModelOpen={(data) => dispatch(setOpenModal(data))}
       />
 
       <Box className={"flex justify-between items-center gap-4"}>
@@ -166,9 +165,6 @@ const CustomizedCalendar = () => {
           />
         </div>
         <div className="flex gap-2 justify-end items-center">
-          <CustomButton onClick={() => setModelOpen(true)}>
-            Thêm sự kiện
-          </CustomButton>
           <InputPicker
             data={ViewOptions}
             defaultValue={view}

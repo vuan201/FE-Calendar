@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 const CustomButton = ({ children, icon, ...props }) => {
   return (
     <button className="custom-btn px-3 py-2" {...props}>
-      {icon ?? ""}
-      {children}
+      <div className=" flex justify-center items-center gap-1">
+        {icon ?? ""}
+        <span>{children}</span>
+      </div>
     </button>
   );
 };

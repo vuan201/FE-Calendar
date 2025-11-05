@@ -13,7 +13,7 @@ const Brand = ({ expand, onChange }) => {
           icon={<FaReact size={20} />}
         />
       </Stack>
-      {expand && <Text>Brand</Text>}
+      {expand && <Text>Lịch</Text>}
     </HStack>
   );
 };
