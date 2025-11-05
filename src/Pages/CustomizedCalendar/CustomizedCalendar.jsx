@@ -19,9 +19,10 @@ import "./CustomizeCalendar.css";
 
 import moment from "moment";
 import "moment/dist/locale/vi.js";
+import { selectedTime, setSelectedTime } from "../../app/redux";
+import { useDispatch, useSelector } from "react-redux";
 
 moment.locale("vi");
-
 const CustomizedCalendar = () => {
   const views = {
     [Views.MONTH]: true,
@@ -42,12 +43,13 @@ const CustomizedCalendar = () => {
     endTime: new Date(2025, 6, 8, 10, 30, 0),
     dateRange: null,
   };
+
+  const dispatch = useDispatch();
+
   const [modelOpen, setModelOpen] = useState(false);
 
   const [view, setView] = useState(Views.MONTH);
-
-  const [date, setDate] = useState(new Date());
-
+  const time = useSelector(selectedTime);
   // Dữ liệu sự kiện mẫu
   const events = [
     {
@@ -77,28 +79,51 @@ const CustomizedCalendar = () => {
     },
     {
       id: 4,
-      title: "Event hiện tại",
+      title: "Event hiện tại 1",
       start: new Date(),
-      end: new moment().add(1, "hour").toDate(),
+      end: new moment().add(5, "hour").toDate(),
+    },
+    {
+      id: 5,
+      title: "Event hiện tại 2",
+      start: new moment().add(1, "day").toDate(),
+      end: new moment().add(2, "day").toDate(),
+    },
+    {
+      id: 6,
+      title: "Event hiện tại 3",
+      start: new Date(),
+      end: new moment().add(2, "day").toDate(),
+    },
+    {
+      id: 7,
+      title: "Event hiện tại 4",
+      start: new moment().add(1, "day").toDate(),
+      end: new moment().add(1, "day").add(1, "hour").toDate(),
     },
   ];
 
   const title = useMemo(() => {
-    return getTitleByDate(date, view);
-  }, [view, date]);
+    return getTitleByDate(time, view);
+  }, [view, time]);
 
   const subtractBtn = useCallback(() => {
-    if (view === Views.DAY) setDate(moment(date).subtract(1, "day").toDate());
-    if (view === Views.WEEK) setDate(moment(date).subtract(1, "week").toDate());
+    if (view === Views.DAY)
+      dispatch(setSelectedTime(moment(time).subtract(1, "day").toDate()));
+    if (view === Views.WEEK)
+      dispatch(setSelectedTime(moment(time).subtract(1, "week").toDate()));
     if (view === Views.MONTH)
-      setDate(moment(date).subtract(1, "month").toDate());
-  }, [date, view]);
+      dispatch(setSelectedTime(moment(time).subtract(1, "month").toDate()));
+  }, [time, view, dispatch]);
 
   const nextBtn = useCallback(() => {
-    if (view === Views.DAY) setDate(moment(date).add(1, "day").toDate());
-    if (view === Views.WEEK) setDate(moment(date).add(1, "week").toDate());
-    if (view === Views.MONTH) setDate(moment(date).add(1, "month").toDate());
-  }, [date, view]);
+    if (view === Views.DAY)
+      dispatch(setSelectedTime(moment(time).add(1, "day").toDate()));
+    if (view === Views.WEEK)
+      dispatch(setSelectedTime(moment(time).add(1, "week").toDate()));
+    if (view === Views.MONTH)
+      dispatch(setSelectedTime(moment(time).add(1, "month").toDate()));
+  }, [time, view, dispatch]);
 
   return (
     <div>
@@ -113,7 +138,7 @@ const CustomizedCalendar = () => {
           <Button
             color="yellow"
             appearance="ghost"
-            onClick={() => setDate(moment())}
+            onClick={() => dispatch(setSelectedTime())(moment())}
           >
             Hôm nay
           </Button>
@@ -162,8 +187,8 @@ const CustomizedCalendar = () => {
           endAccessor="end"
           style={{ minHeight: 900, padding: 0 }}
           defaultView={view}
-          date={date}
-          onNavigate={setDate}
+          date={time}
+          onNavigate={(data) => dispatch(setSelectedTime(data))}
           view={view}
           onView={setView}
           views={views}

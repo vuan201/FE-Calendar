@@ -68,3 +68,9 @@ body {
   --rs-input-bg: var(--color-bg-primary);
   --rs-text-primary: var(--color-custom-yellow-700)
 } */
+ .rs-calendar-btn-today {
+  display: none !important;
+ }
+.rs-calendar-header-month-toolbar{
+  float:none;
+}
